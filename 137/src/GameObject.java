@@ -1,3 +1,5 @@
+package bin;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.LinkedList;
@@ -8,10 +10,13 @@ public abstract class GameObject{
 	protected float velX = 0, velY = 0;
 	protected ObjectId id;
 	protected float setRot;
+	protected int width, height;
 
-	public GameObject(float x, float y, ObjectId id){
+	public GameObject(float x, float y, int width, int height, ObjectId id){
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.id = id;
 		this.setRot = 0;
 	}
@@ -65,5 +70,17 @@ public abstract class GameObject{
 
 	public ObjectId getId(){
 		return id;
+	}
+	public int getWidth(){
+		return width;
+	}
+	public int getHeight(){
+		return height;
+	}
+	public void setWidth(int width){
+		this.width = width;
+	}
+	public void setHeight(){
+		this.height = height;
 	}
 }

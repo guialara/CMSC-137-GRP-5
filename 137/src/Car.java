@@ -1,3 +1,4 @@
+package bin;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -5,24 +6,28 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import java.awt.image.ImageObserver;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 public class Car extends GameObject{
 
-	private int width = 100, height = 50;
 	private Handler handler;
+	private Rectangle botBound, topBound, rightBound, leftBound;
+
 	
-	public Car(float x, float y, Handler handler, ObjectId id){
-		super(x,y,id);
+	public Car(float x, float y, int width, int height, Handler handler, ObjectId id){
+		super(x,y,width,height,id);
 		this.handler = handler;
+		botBound = new Rectangle((int)x, (int)y+(height/2)-(height/4), width/2, height/2);
+		topBound = new Rectangle((int)x+(width/2), (int)y+(height/2)-(height/4), width/2, height/2);
+		rightBound = new Rectangle((int)x+5, (int)y, width-10, 3);
+		leftBound = new Rectangle((int)x+5, (int)y+height-3, width-10, 3);
 	}
 
 	public void tick(LinkedList<GameObject> object){
 		x+=velX;
 		y+=velY;
+
 
 		Collision(object);
 	}
@@ -34,22 +39,31 @@ public class Car extends GameObject{
 		Image image = img.getImage().getScaledInstance(100, 50, Image.SCALE_SMOOTH);
 		img = new ImageIcon(image);
 
-		AffineTransform identity = new AffineTransform();
 		Graphics2D g2d = (Graphics2D) g;
-		AffineTransform trans = new AffineTransform();
-		trans.setTransform(identity);
-
-		trans.rotate(Math.toRadians(setRot), (double)x+width/2, (double)y+height/2);
-		trans.translate((double)x, (double)y);
-		g2d.rotate(Math.toRadians(setRot), (double)x+width/2, (double)y+height/2);
-		// g2d.drawImage(image, trans, null);
-		// g2d.drawRect();
-		// g2d.setColor(Color.red);
-		g2d.drawImage(image, (int)x, (int)y, null);
+		// AffineTransform identity = new AffineTransform();
+		// AffineTransform trans = new AffineTransform();
+		// trans.setTransform(identity);
+		g2d.setColor(Color.red);
+		
 		g2d.draw(getBoundsBottom());
 		g2d.draw(getBoundsTop());
 		g2d.draw(getBoundsRight());
 		g2d.draw(getBoundsLeft());
+		// trans.rotate(Math.toRadians(setRot), (double)x+width/2, (double)y+height/2);
+		// trans.translate((double)x, (double)y);
+		g2d.rotate(Math.toRadians(setRot), (double)x+width/2, (double)y+height/2);
+		// System.out.println(trans.getRotateInstance(Math.toRadians(setRot), (double)x+width/2, (double)y+height/2));
+
+		// g2d.drawImage(image, trans, null);
+		g2d.drawImage(image, (int)x, (int)y, null);
+		// System.out.println(g2d.getClipRect());
+		// System.out.println(g2d.getClipBounds());
+		g2d.setColor(Color.white);	
+		g2d.draw(getBoundsBottom());
+		g2d.draw(getBoundsTop());
+		g2d.draw(getBoundsRight());
+		g2d.draw(getBoundsLeft());
+		// System.out.println(getBoundsBottom().getBounds2D());
 	}
 
 	private void Collision(LinkedList<GameObject> object){
@@ -81,12 +95,12 @@ public class Car extends GameObject{
 				//Car Top Collision
 				if(getBoundsTop().intersects(tempObject.getBoundsRight())){
 					System.out.println("TR");
-					x = tempObject.getX()-width;
+					x = tempObject.getX()+width+10;
 					velX = 0;
 				}
 				if(getBoundsTop().intersects(tempObject.getBoundsLeft())){
 					System.out.println("TL");
-					x = tempObject.getX()+width+10;
+					x = tempObject.getX()-width-10;
 					velX = 0;
 				}
 				if(getBoundsTop().intersects(tempObject.getBoundsTop())){
@@ -101,35 +115,43 @@ public class Car extends GameObject{
 				}
 				//Car Left Collision
 				if(getBoundsLeft().intersects(tempObject.getBoundsRight())){
+					System.out.println("LR");
 					x = tempObject.getX()+10+height;
 					velX = 0;
 				}
 				if(getBoundsLeft().intersects(tempObject.getBoundsLeft())){
+					System.out.println("LL");
 					x = tempObject.getX()-height;
 					velX = 0;
 				}
 				if(getBoundsLeft().intersects(tempObject.getBoundsTop())){
+					System.out.println("LT");
 					y = tempObject.getY()-10;
 					velY = 0;
 				}
 				if(getBoundsLeft().intersects(tempObject.getBoundsBottom())){
+					System.out.println("LB");
 					y = tempObject.getY()+10;
 					velY = 0;
 				}
 				//Car Right Collision
 				if(getBoundsRight().intersects(tempObject.getBoundsRight())){
+					System.out.println("RR");
 					x = tempObject.getX()+10+height;
 					velX = 0;
 				}
 				if(getBoundsRight().intersects(tempObject.getBoundsLeft())){
+					System.out.println("RL");
 					x = tempObject.getX()-height;
 					velX = 0;
 				}
 				if(getBoundsRight().intersects(tempObject.getBoundsTop())){
+					System.out.println("RT");
 					y = tempObject.getY()-height;
 					velY = 0;
 				}
 				if(getBoundsRight().intersects(tempObject.getBoundsBottom())){
+					System.out.println("RB");
 					y = tempObject.getY()+10+height;
 					velY = 0;
 				}
@@ -147,5 +169,8 @@ public class Car extends GameObject{
 	}
 	public Rectangle getBoundsRight(){
 		return new Rectangle((int)x+5, (int)y+height-3, width-10, 3);
+	}
+	public void setBoundsBottom(Rectangle r){
+		botBound = r;
 	}
 }

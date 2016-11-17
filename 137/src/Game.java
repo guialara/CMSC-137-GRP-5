@@ -1,3 +1,5 @@
+package bin;
+
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Color;
@@ -18,7 +20,7 @@ public class Game extends Canvas implements Runnable{
 
 		handler = new Handler();
 		handler.createLevel();
-		handler.addObject(new Car(200,200,handler,ObjectId.Car));
+		handler.addObject(new Car(200,200,100,50,handler,ObjectId.Car));
 		this.addKeyListener(new KeyInput(handler));
 	}
 
