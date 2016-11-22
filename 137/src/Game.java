@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.image.BufferStrategy;
+import java.awt.Dimension;
+import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable{
 
@@ -13,14 +15,35 @@ public class Game extends Canvas implements Runnable{
 	public static double delta;
 	private String fps;
 	public static int WIDTH, HEIGHT;
+	private GameClient gameClient;
+	String pName;
+
+	public Game(int w, int h, String title, String pName){
+		this.setPreferredSize(new Dimension(w, h));
+		this.setMaximumSize(new Dimension(w, h));
+		this.setMinimumSize(new Dimension(w, h));
+		this.pName = pName;
+		
+		JFrame frame = new JFrame(title);
+		frame.add(this);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+
+		this.start();
+	}
 
 	private void init(){
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
 
 		handler = new Handler();
+		gameClient = new GameClient(this, "localhost");
+		gameClient.start();
+		gameClient.sendData("ping".getBytes());
 		handler.createLevel();
-		handler.addObject(new Car(200,200,100,50,handler,ObjectId.Car));
+		handler.addObject(new Car(200,200,50,50,handler,pName,gameClient,ObjectId.Car));
 		this.addKeyListener(new KeyInput(handler));
 	}
 
@@ -89,6 +112,11 @@ public class Game extends Canvas implements Runnable{
 	}
 
 	public static void main(String[] args){
-		new Window(800,600,"BumpCar.io", new Game());
+		if(args.length != 2){
+			System.out.println("Usage: java Game <server> <player name>");
+			System.exit(1);
+		}
+
+		new Game(800,600,"BumpCar.io",args[1]);
 	}
 }

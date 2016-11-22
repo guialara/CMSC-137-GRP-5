@@ -23,10 +23,10 @@ public abstract class GameObject{
 
 	public abstract void tick(LinkedList<GameObject> object);
 	public abstract void render(Graphics g);
-	public abstract Rectangle getBoundsBottom();
-	public abstract Rectangle getBoundsTop();
-	public abstract Rectangle getBoundsLeft();
-	public abstract Rectangle getBoundsRight();
+	// public abstract Rectangle getBoundsBottom();
+	// public abstract Rectangle getBoundsTop();
+	// public abstract Rectangle getBoundsLeft();
+	// public abstract Rectangle getBoundsRight();
 
 	public float getX(){
 		return x;
