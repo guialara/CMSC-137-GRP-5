@@ -3,6 +3,8 @@ package bin;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.LinkedList;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.RoundRectangle2D.Float;
 
 public abstract class GameObject{
 	

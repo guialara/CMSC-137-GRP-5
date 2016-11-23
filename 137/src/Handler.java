@@ -2,6 +2,7 @@ package bin;
 
 import java.util.LinkedList;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Handler{
 	
@@ -39,5 +40,14 @@ public class Handler{
 			addObject(new Block(0, i, 10, 10, ObjectId.Block));
 			addObject(new Block(Game.WIDTH-11, i, 10, 10, ObjectId.Block));
 		}
+	}
+
+	public void createFood(){
+		Random randX = new Random();
+		Random randY = new Random();
+
+		int x = randX.nextInt(Game.WIDTH-20)+10;
+		int y = randY.nextInt(Game.HEIGHT-20)+10;
+		addObject(new Food(x, y, 7, 7, ObjectId.Food));
 	}
 }

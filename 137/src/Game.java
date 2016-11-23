@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.image.BufferStrategy;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import java.util.Random;
 
 public class Game extends Canvas implements Runnable{
 
@@ -37,13 +38,19 @@ public class Game extends Canvas implements Runnable{
 	private void init(){
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
+		int randX = new Random().nextInt(WIDTH-20)+10;
+		int randY = new Random().nextInt(HEIGHT-20)+10;
 
 		handler = new Handler();
 		gameClient = new GameClient(this, "localhost");
 		gameClient.start();
 		gameClient.sendData("ping".getBytes());
+
 		handler.createLevel();
-		handler.addObject(new Car(200,200,50,50,handler,pName,gameClient,ObjectId.Car));
+		handler.addObject(new Car(randX,randY,50,50,handler,pName,gameClient,ObjectId.Car));
+		for(int i=0;i<10;i++)
+			handler.createFood();
+		
 		this.addKeyListener(new KeyInput(handler));
 	}
 

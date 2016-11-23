@@ -22,16 +22,16 @@ public class KeyInput extends KeyAdapter{
 
 			if(tempObject.getId()==ObjectId.Car){
 				if(key==KeyEvent.VK_W){
-					tempObject.setVelY(-1);
+					tempObject.setVelY(-3);
 				} 
 				if(key==KeyEvent.VK_S){
-					tempObject.setVelY(1);
+					tempObject.setVelY(3);
 				} 
 				if(key==KeyEvent.VK_D){
-					tempObject.setVelX(1);
+					tempObject.setVelX(3);
 				}
 				if(key==KeyEvent.VK_A){
-					tempObject.setVelX(-1);
+					tempObject.setVelX(-3);
 				}
 			}
 		}
