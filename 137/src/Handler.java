@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.util.Random;
 
 public class Handler{
-	
 	public LinkedList<GameObject> object = new LinkedList<GameObject>();
 	private GameObject tempObject;
 
@@ -46,8 +45,8 @@ public class Handler{
 		Random randX = new Random();
 		Random randY = new Random();
 
-		int x = randX.nextInt(Game.WIDTH-20)+10;
-		int y = randY.nextInt(Game.HEIGHT-20)+10;
+		int x = randX.nextInt(Game.WIDTH-20)+5;
+		int y = randY.nextInt(Game.HEIGHT-20)+5;
 		addObject(new Food(x, y, 7, 7, ObjectId.Food));
 	}
 }

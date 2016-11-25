@@ -25,51 +25,36 @@ public abstract class GameObject{
 
 	public abstract void tick(LinkedList<GameObject> object);
 	public abstract void render(Graphics g);
-	// public abstract Rectangle getBoundsBottom();
-	// public abstract Rectangle getBoundsTop();
-	// public abstract Rectangle getBoundsLeft();
-	// public abstract Rectangle getBoundsRight();
-
 	public float getX(){
 		return x;
 	}
-
 	public float getY(){
 		return y;
 	}
-
 	public void setX(float x){
 		this.x = x;
 	}
-
 	public void setY(float y){
 		this.y = y;
 	}
-
 	public float getVelX(){
 		return velX;
 	}
-
 	public float getVelY(){
 		return velY;
 	}
-
 	public void setVelX(float velX){
 		this.velX = velX;
 	}
-
 	public void setVelY(float velY){
 		this.velY = velY;
 	}
-
 	public float getRot(){
 		return setRot;
 	}
-
 	public void setRot(float setRot){
 		this.setRot = setRot;
 	}
-
 	public ObjectId getId(){
 		return id;
 	}

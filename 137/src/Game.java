@@ -38,8 +38,8 @@ public class Game extends Canvas implements Runnable{
 	private void init(){
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
-		int randX = new Random().nextInt(WIDTH-20)+10;
-		int randY = new Random().nextInt(HEIGHT-20)+10;
+		int randX = new Random().nextInt(WIDTH-20)+5;
+		int randY = new Random().nextInt(HEIGHT-20)+5;
 
 		handler = new Handler();
 		gameClient = new GameClient(this, "localhost");
@@ -51,7 +51,7 @@ public class Game extends Canvas implements Runnable{
 		for(int i=0;i<10;i++)
 			handler.createFood();
 		
-		this.addKeyListener(new KeyInput(handler));
+		this.addKeyListener(new KeyInput(handler, pName));
 	}
 
 	public synchronized void start(){
@@ -124,6 +124,6 @@ public class Game extends Canvas implements Runnable{
 			System.exit(1);
 		}
 
-		new Game(800,600,"BumpCar.io",args[1]);
+		new Game(800,700,"BumpCar.io",args[1]);
 	}
 }

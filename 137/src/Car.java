@@ -15,6 +15,7 @@ public class Car extends GameObject{
 	private Rectangle botBound, topBound, rightBound, leftBound;
 	String pName;
 	GameClient gameClient;
+	private int score;
 	
 	public Car(float x, float y, int width, int height, Handler handler, String pName, GameClient gameClient, ObjectId id){
 		super(x,y,width,height,id);
@@ -26,10 +27,8 @@ public class Car extends GameObject{
 	}
 
 	public void tick(LinkedList<GameObject> object){
-		x+=velX;
-		y+=velY;
-		String str = "PLAYER: " + pName + " "+ x+" "+ y;
-		// gameClient.sendData(str.getBytes());
+		this.x+=this.velX;
+		this.y+=this.velY;
 
 		Collision(object);
 	}
@@ -58,6 +57,9 @@ public class Car extends GameObject{
 			if(handler.object.get(i).getId()==ObjectId.Food){
 				Food food = (Food)handler.object.get(i);
 				if(getBounds().intersects(food.getBounds())){
+					width+=5;
+					height+=5;
+
 					handler.removeObject(food);
 					handler.createFood();
 				}
@@ -65,10 +67,14 @@ public class Car extends GameObject{
 		}
 	}
 
+	public String getName(){
+		return this.pName;
+	}
+
 	public void render(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.fillOval((int)x, (int)y, (int)width,(int)height);
-		g2d.drawString(pName, (int)x+10, (int)y+60);
+		g2d.drawString(pName, (int)x+width/4, (int)y+height+10);
 		g2d.setColor(Color.red);
 		g2d.draw(getBounds());
 	}

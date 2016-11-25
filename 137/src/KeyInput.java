@@ -7,10 +7,12 @@ import java.awt.Graphics2D;
 
 public class KeyInput extends KeyAdapter{
 	
+	String username;
 	Handler handler;
 
-	public KeyInput(Handler handler){
+	public KeyInput(Handler handler, String username){
 		this.handler = handler;
+		this.username = username;
 	}
 
 	public void keyPressed(KeyEvent e){
@@ -20,7 +22,7 @@ public class KeyInput extends KeyAdapter{
 		for(int i=0;i<handler.object.size();i++){
 			GameObject tempObject = handler.object.get(i);
 
-			if(tempObject.getId()==ObjectId.Car){
+			if(tempObject.getId()==ObjectId.Car && ((Car)tempObject).getName().equals(this.username)){
 				if(key==KeyEvent.VK_W){
 					tempObject.setVelY(-3);
 				} 
