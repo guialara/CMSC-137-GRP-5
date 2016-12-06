@@ -28,6 +28,8 @@ public class Game extends Canvas implements Runnable{
 	public Car car;
 	public boolean debug = true;
 	public KeyInput input;
+	public int playerNum;
+	public int currentPlayer;
 	 
 	public Game(int w, int h, String title, String pName){
 		this.setPreferredSize(new Dimension(w, h));
@@ -48,6 +50,7 @@ public class Game extends Canvas implements Runnable{
 
 	private void init(){
 		game=this;
+		currentPlayer = 0;
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
 		int randX = new Random().nextInt(WIDTH-20)+10;
@@ -76,13 +79,14 @@ public class Game extends Canvas implements Runnable{
 		running = true;
 		
 		if (JOptionPane.showConfirmDialog(this, "Do you want to run the server") == 0) {
-			String tempNum = JOptionPane.showInputDialog("Please number of players");
-            int playerNum = Integer.parseInt(tempNum);
-			gameServer = new GameServer(this);
+			String tempNum = JOptionPane.showInputDialog("Please enter number of players");
+			int tempplayerNum = Integer.parseInt(tempNum);
+			gameServer = new GameServer(this, tempplayerNum);
             gameServer.start();
-            
+            this.playerNum = gameServer.playerNum;
         }
-		gameClient = new GameClient(this, "localhost");
+		String serverAddress = JOptionPane.showInputDialog("Enter Server Address: ");
+		gameClient = new GameClient(this, serverAddress);
 		gameClient.start();
 		thread = new Thread(this);
 		thread.start();
@@ -106,57 +110,41 @@ public class Game extends Canvas implements Runnable{
 		int updates = 0;
 		int frames = 0;
 		init();
-		/*while(running){
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-			while(delta >= 1){
-				tick();
-				updates++;
-				delta--;
-			}
-			fps = "FPS: " + frames + " TICKS: " + updates;
-			render();
-			frames++;
-
-			if(System.currentTimeMillis() - timer > 1000){
-				timer += 1000;
-				
-				frames = 0;
-				updates = 0;
-			}
-		}*/
+		
 		while (running) {
-            long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
-            lastTime = now;
-            boolean shouldRender = true;
-
-            while (delta >= 1) {
-                tick();
-                updates++;
-                delta -= 1;
-                shouldRender = true;
-            }
-
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (shouldRender) {
-                frames++;
-                render();
-            }
-
-            if (System.currentTimeMillis() - timer >= 1000) {
-                timer += 1000;
-                //debug(DebugLevel.INFO, updates + " ticks, " + frames + " frames");
-                frames = 0;
-                updates = 0;
-            }
-        }
+			System.out.println("LIMIT: "+playerNum);
+			System.out.println("CURRENT: "+currentPlayer);
+			if(playerNum == currentPlayer){
+	            long now = System.nanoTime();
+	            delta += (now - lastTime) / ns;
+	            lastTime = now;
+	            boolean shouldRender = true;
+	
+	            while (delta >= 1) {
+	                tick();
+	                updates++;
+	                delta -= 1;
+	                shouldRender = true;
+	            }
+	
+	            try {
+	                Thread.sleep(2);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	
+	            if (shouldRender) {
+	                frames++;
+	                render();
+	            }
+	
+	            if (System.currentTimeMillis() - timer >= 1000) {
+	                timer += 1000;
+	                frames = 0;
+	                updates = 0;
+	            }
+	        }
+		}
 
 	}
 	

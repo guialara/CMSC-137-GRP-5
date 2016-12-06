@@ -42,7 +42,7 @@ public class Car extends GameObject{
 		//String str = "PLAYER: " + pName + " "+ x+" "+ y;
 		// gameClient.sendData(str.getBytes());
 
-		Collision(object);
+		//Collision(object);
 	}
 	
 

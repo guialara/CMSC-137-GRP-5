@@ -16,11 +16,13 @@ public class GameServer extends Thread{
 	LinkedList<CarMP> cars = new LinkedList<CarMP>();
 	private DatagramSocket socket;
 	private Game game;
+	public int playerNum;
 	Handler handler;
 	
 
-	public GameServer(Game game){
+	public GameServer(Game game, int playerNum){
 		this.game = game;
+		this.playerNum = playerNum;
 		try{
 			this.socket = new DatagramSocket(1331);
 		}catch(Exception ioe){
@@ -59,7 +61,9 @@ public class GameServer extends Thread{
 				packet = new PacketLogin(data);
 				System.out.println(packet.getUsername()+" connected...");
 				CarMP car = new CarMP((float)packet.getX(),(float)packet.getY(), packet.getW(),packet.getH(),packet.getUsername(),packet.getId(),address, port);
+				PacketPlayerNum limitPacket = new PacketPlayerNum(this.playerNum, game.currentPlayer+1);
 				this.addConnection(car, (PacketLogin)packet);
+				this.sendDataToAllClients(limitPacket.getData());
 				break;
 			case DISCONNECT:
 				packet = new PacketDisconnect(data);
@@ -70,10 +74,10 @@ public class GameServer extends Thread{
 				packet = new PacketMove(data);
 				System.out.println("MOVE: "+packet.getUsername());
 	            this.handleMove((PacketMove) packet);
-	            //break;
-	        //case FOOD: 
-	            //packet = new PacketFood(data);
-	            //this.handleFood((PacketFood) packet);
+	            break;
+	        case NUM: 
+	            packet = new PacketPlayerNum(data);
+	            this.sendPlayerLimit((PacketPlayerNum)packet);
 		}
 	}
 
@@ -138,7 +142,6 @@ public class GameServer extends Thread{
 		if(!alreadyConnected){
 			this.cars.add(car);
 		}
-		
 	}
 	
 	private void handleMove(PacketMove packet) {
@@ -149,6 +152,10 @@ public class GameServer extends Thread{
 	            player.y = packet.getY();
 	            packet.writeData(this);
 	        }
+	}
+	
+	private void sendPlayerLimit(PacketPlayerNum packet){
+		packet.writeData(this);
 	}
 	
 	/*

@@ -48,13 +48,17 @@ public class GameClient extends Thread{
 				handleLogin((PacketLogin) packet, address, port);
 				break;
 			case DISCONNECT: 
-				packet = new PacketDisconnect(data);
+				packet = new PacketDisconnect(data);				
 	            System.out.println(packet.getUsername()+" disconnected...");
 	            game.handler.removeObjectFromList(((PacketDisconnect) packet).getUsername());
 				break;
 			case MOVE:
 				 packet = new PacketMove(data);
 		         handleMove((PacketMove) packet);
+		         break;
+			case NUM:
+				packet = new PacketPlayerNum(data);
+				setPlayerNum((PacketPlayerNum) packet);
 		}
 		
 	}
@@ -66,6 +70,12 @@ public class GameClient extends Thread{
 		System.out.println(packet.getUsername()+" joined...");
 		CarMP car = new CarMP((float)packet.getX(),(float)packet.getY(), packet.getW(),packet.getH(),packet.getUsername(),packet.getId(),address, port);
 		game.handler.addObject(car);
+		//game.currentPlayer +=1;
+	}
+	
+	private void setPlayerNum (PacketPlayerNum packet){
+		game.playerNum = packet.playerNum;
+		game.currentPlayer = packet.currentPlayer;
 	}
 
 	public void sendData(byte[] data){
