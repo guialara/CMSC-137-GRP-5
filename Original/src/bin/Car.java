@@ -6,7 +6,7 @@ import java.awt.Color;
 //import java.awt.Rectangle;
 //import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
-//import java.awt.geom.RoundRectangle2D.Float;
+import java.awt.geom.RoundRectangle2D.Float;
 import java.awt.Graphics2D;
 
 public class Car extends GameObject{
@@ -39,8 +39,6 @@ public class Car extends GameObject{
 		}else{
 			isMoving=false;
 		}
-		//String str = "PLAYER: " + pName + " "+ x+" "+ y;
-		// gameClient.sendData(str.getBytes());
 
 		Collision(object);
 	}
@@ -51,19 +49,19 @@ public class Car extends GameObject{
 			if(object.get(i).getId()==ObjectId.Block){
 				Block block = (Block)object.get(i);
 				if(getBounds().intersects(block.getBoundsTop())){
-					y = block.getY()-width;
+					y = block.getY()-height-2;
 					velY = 0;
 				}
 				if(getBounds().intersects(block.getBoundsBottom())){
-					y = block.getY()+10;
+					y = block.getY()+22;
 					velY = 0;
 				}
 				if(getBounds().intersects(block.getBoundsRight())){
-					x = block.getX()+10;
+					x = block.getX()+22;
 					velX = 0;
 				}
 				if(getBounds().intersects(block.getBoundsLeft())){
-					x = block.getX()-width;
+					x = block.getX()-width-2;
 					velX = 0;
 				}
 			}
@@ -71,8 +69,22 @@ public class Car extends GameObject{
 				Food food = (Food)object.get(i);
 				if(object.get(i) != null){
 					if(getBounds().intersects(food.getBounds())){
-						handler.removeObject(food);
-						handler.createFood();
+						// handler.removeObject(food);
+						// handler.createFood();
+					}
+				}
+			}
+			if(object.get(i).getId()==ObjectId.Car){
+				Car car = (Car)object.get(i);
+				if(!getUsername().equals(car.getUsername())){	
+					if(getBounds().intersects((double)car.getX(), (double)car.getY(), (double)car.getWidth(), (double)car.getHeight())){
+						if(getWidth()==car.getWidth()){
+							if(getX()<car.getX()) car.setX(car.getX()+1);
+							if(getX()>car.getX()) car.setX(car.getX()-1);
+							if(getY()<car.getY()) car.setY(car.getY()+1);
+							if(getY()>car.getY()) car.setY(car.getY()-1);
+							PacketMove packet = new PacketMove(car.getUsername(),(int)car.getX(), (int)car.getY());
+						}
 					}
 				}
 			}

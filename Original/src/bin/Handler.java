@@ -32,13 +32,13 @@ public class Handler{
 	}
 
 	public void createLevel(){
-		for(int i=0;i<Game.WIDTH;i+=10){
-			addObject(new Block(i, Game.HEIGHT-11, 10, 10, ObjectId.Block));
-			addObject(new Block(i, 0, 10, 10, ObjectId.Block));
+		for(int i=0;i<Game.WIDTH;i+=20){
+			addObject(new Block(i, Game.HEIGHT-21, 20, 20, ObjectId.Block));
+			addObject(new Block(i, 0, 20, 20, ObjectId.Block));
 		}
-		for(int i=0;i<Game.HEIGHT;i+=10){
-			addObject(new Block(0, i, 10, 10, ObjectId.Block));
-			addObject(new Block(Game.WIDTH-11, i, 10, 10, ObjectId.Block));
+		for(int i=0;i<Game.HEIGHT;i+=20){
+			addObject(new Block(0, i, 20, 20, ObjectId.Block));
+			addObject(new Block(Game.WIDTH-21, i, 20, 20, ObjectId.Block));
 		}
 	}
 
@@ -46,8 +46,8 @@ public class Handler{
 		Random randX = new Random();
 		Random randY = new Random();
 
-		int x = randX.nextInt(Game.WIDTH-20)+10;
-		int y = randY.nextInt(Game.HEIGHT-20)+10;
+		int x = randX.nextInt(Game.WIDTH-40)+21;
+		int y = randY.nextInt(Game.HEIGHT-40)+21;
 		addObject(new Food(x, y, 7, 7, ObjectId.Food));
 	}
 

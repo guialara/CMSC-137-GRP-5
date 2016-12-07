@@ -1,17 +1,19 @@
 package bin;
 
 import java.awt.Graphics;
-//import java.awt.Graphics2D;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.awt.Color;
 import java.awt.Rectangle;
 
 public class Block extends GameObject{
 	
-	private int width = 10, height = 10;
+	private int width, height;
 
 	public Block(float x, float y, int width, int height, ObjectId id){
 		super(x, y, width, height, id);
+		this.width = width;
+		this.height = height;
 	}
 
 	public void tick(LinkedList<GameObject> object){
@@ -21,28 +23,19 @@ public class Block extends GameObject{
 	public void render(Graphics g){
 		g.setColor(Color.white);
 		g.drawRect((int)x, (int)y, width, height);
-		// Graphics2D g2d = (Graphics2D) g;
-		// g2d.setColor(Color.red);
-		// g2d.draw(getBoundsBottom());
-		// g2d.setColor(Color.blue);
-		// g2d.draw(getBoundsTop());
-		// g2d.setColor(Color.green);
-		// g2d.draw(getBoundsLeft());
-		// g2d.setColor(Color.yellow);
-		// g2d.draw(getBoundsRight());
 	}
 
 	public Rectangle getBoundsBottom(){
-		return new Rectangle((int)x+3, (int)y+height-3, width-6, 3);
+		return new Rectangle((int)x+5, (int)y+height-5, width-10, 5);
 	}
 	public Rectangle getBoundsTop(){
-		return new Rectangle((int)x+3, (int)y, width-6, 3);
+		return new Rectangle((int)x+5, (int)y, width-10, 5);
 	}
 	public Rectangle getBoundsLeft(){
-		return new Rectangle((int)x, (int)y+(height/2)-(height/4), width/2, height/2);
+		return new Rectangle((int)x, (int)y+5, width/2, height/2);
 	}
 	public Rectangle getBoundsRight(){
-		return new Rectangle((int)x+(width/2), (int)y+(height/2)-(height/4), width/2, height/2);		
+		return new Rectangle((int)x+(width/2), (int)y+5, width/2, height/2);		
 	}
 
 	@Override
