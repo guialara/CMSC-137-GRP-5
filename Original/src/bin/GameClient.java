@@ -59,13 +59,10 @@ public class GameClient extends Thread{
 			case NUM:
 				packet = new PacketPlayerNum(data);
 				setPlayerNum((PacketPlayerNum) packet);
-<<<<<<< HEAD
 			case FOOD:
 				packet = new PacketFood(data);
 				handleFood((PacketFood)packet);
 				break;
-=======
->>>>>>> 40d42a74bf5221fee2bead0932cb27cc367b3d51
 		}
 		
 	}
@@ -79,14 +76,11 @@ public class GameClient extends Thread{
 		game.handler.addObject(car);
 		//game.currentPlayer +=1;
 	}
-<<<<<<< HEAD
 
 	private void handleFood(PacketFood packet){
 		for(int i=0;i<packet.foodCoords.length;i++)
 			this.game.handler.addObject(new Food(packet.foodCoords[i][0],packet.foodCoords[i][1],7,7,ObjectId.Food));
 	}
-=======
->>>>>>> 40d42a74bf5221fee2bead0932cb27cc367b3d51
 	
 	private void setPlayerNum (PacketPlayerNum packet){
 		game.playerNum = packet.playerNum;
