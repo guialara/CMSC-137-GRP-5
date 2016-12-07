@@ -63,6 +63,10 @@ public class GameClient extends Thread{
 				packet = new PacketFood(data);
 				handleFood((PacketFood)packet);
 				break;
+			case EAT:
+				packet = new PacketEat(data);
+				game.handler.removeObject(searchFood(((PacketEat)packet).getXPos(), ((PacketEat)packet).getYPos()));
+				break;
 		}
 		
 	}
@@ -95,5 +99,14 @@ public class GameClient extends Thread{
 		}catch(Exception e){
 			
 		}
+	}
+
+	private Food searchFood(float x, float y){
+		for(GameObject f : game.handler.object){
+			if(f.getId()==ObjectId.Food){
+				if(f.getX()==x && f.getY()==y) return (Food)f;
+			}
+		}
+		return null;
 	}
 }

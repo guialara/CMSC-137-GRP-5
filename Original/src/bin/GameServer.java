@@ -83,6 +83,11 @@ public class GameServer extends Thread{
 	        case NUM: 
 	            packet = new PacketPlayerNum(data);
 	            this.sendPlayerLimit((PacketPlayerNum)packet);
+	        	break;
+	        case EAT:
+	        	packet = new PacketEat(data);
+	        	this.handleEat((PacketEat)packet);
+	        	break;
 		}
 	}
 
@@ -169,7 +174,21 @@ public class GameServer extends Thread{
 			str += (f.getX() + "," + f.getY() + ",");
 		return str;
 	}
+
+	private Food searchFood(float x, float y){
+		for(GameObject f : this.handler.object){
+			if(f.getId()==ObjectId.Food){
+				if(f.getX()==x && f.getY()==y) return (Food)f;
+			}
+		}
+		return null;
+	}
 	
+	private void handleEat(PacketEat packet){
+		this.handler.removeObject(searchFood(packet.getXPos(), packet.getYPos()));
+		packet.writeData(this);
+	}
+
 	/*
 	 * private void handleFood(PacketFood food){
 	 * 	//pang pili kung init or request

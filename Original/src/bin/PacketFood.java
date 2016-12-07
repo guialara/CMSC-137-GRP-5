@@ -4,8 +4,6 @@ import java.util.LinkedList;
 
 public class PacketFood extends Packet{
 	
-	public int playerNum;
-	public int currentPlayer;
 	public float[][] foodCoords;
 
 	public PacketFood(byte[] data) {

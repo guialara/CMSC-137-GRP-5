@@ -67,11 +67,10 @@ public class Car extends GameObject{
 			}
 			if(object.get(i).getId()==ObjectId.Food){
 				Food food = (Food)object.get(i);
-				if(object.get(i) != null){
 					if(getBounds().intersects(food.getBounds())){
-						// PacketFood packet = new PacketFood();
+						PacketEat packet = new PacketEat(food.getX(), food.getY());
+						packet.writeData(Game.game.gameClient);
 					}
-				}
 			}
 			if(object.get(i).getId()==ObjectId.Car){
 				Car car = (Car)object.get(i);
@@ -83,6 +82,7 @@ public class Car extends GameObject{
 							if(getY()<car.getY()) car.setY(car.getY()+1);
 							if(getY()>car.getY()) car.setY(car.getY()-1);
 							PacketMove packet = new PacketMove(car.getUsername(),(int)car.getX(), (int)car.getY());
+							packet.writeData(Game.game.gameClient);
 						}
 					}
 				}
