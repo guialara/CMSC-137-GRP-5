@@ -69,8 +69,6 @@ public class GameServer extends Thread{
 				this.addConnection(car, (PacketLogin)packet);
 				this.sendDataToAllClients(limitPacket.getData());
 				this.sendDataToAllClients(foodPacket.getData());
-				this.addConnection(car, (PacketLogin)packet);
-				this.sendDataToAllClients(limitPacket.getData());
 				break;
 			case DISCONNECT:
 				packet = new PacketDisconnect(data);

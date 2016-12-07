@@ -69,8 +69,7 @@ public class Car extends GameObject{
 				Food food = (Food)object.get(i);
 				if(object.get(i) != null){
 					if(getBounds().intersects(food.getBounds())){
-						// handler.removeObject(food);
-						// handler.createFood();
+						// PacketFood packet = new PacketFood();
 					}
 				}
 			}
