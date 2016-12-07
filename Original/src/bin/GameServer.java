@@ -24,7 +24,10 @@ public class GameServer extends Thread{
 	public GameServer(Game game, int playerNum){
 		this.game = game;
 		this.playerNum = playerNum;
+<<<<<<< HEAD
 		this.handler = game.handler;
+=======
+>>>>>>> 40d42a74bf5221fee2bead0932cb27cc367b3d51
 		try{
 			this.socket = new DatagramSocket(1331);
 		}catch(Exception ioe){
@@ -64,11 +67,16 @@ public class GameServer extends Thread{
 				System.out.println(packet.getUsername()+" connected...");
 				CarMP car = new CarMP((float)packet.getX(),(float)packet.getY(), packet.getW(),packet.getH(),packet.getUsername(),packet.getId(),address, port);
 				PacketPlayerNum limitPacket = new PacketPlayerNum(this.playerNum, game.currentPlayer+1);
+<<<<<<< HEAD
 				String foodCoords = getAllFoodCoords();
 				PacketFood foodPacket = new PacketFood(foods);
 				this.addConnection(car, (PacketLogin)packet);
 				this.sendDataToAllClients(limitPacket.getData());
 				this.sendDataToAllClients(foodPacket.getData());
+=======
+				this.addConnection(car, (PacketLogin)packet);
+				this.sendDataToAllClients(limitPacket.getData());
+>>>>>>> 40d42a74bf5221fee2bead0932cb27cc367b3d51
 				break;
 			case DISCONNECT:
 				packet = new PacketDisconnect(data);
@@ -162,6 +170,7 @@ public class GameServer extends Thread{
 	private void sendPlayerLimit(PacketPlayerNum packet){
 		packet.writeData(this);
 	}
+<<<<<<< HEAD
 
 	private String getAllFoodCoords(){
 		String str="";
@@ -169,6 +178,8 @@ public class GameServer extends Thread{
 			str += (f.getX() + "," + f.getY() + ",");
 		return str;
 	}
+=======
+>>>>>>> 40d42a74bf5221fee2bead0932cb27cc367b3d51
 	
 	/*
 	 * private void handleFood(PacketFood food){

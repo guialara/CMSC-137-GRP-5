@@ -40,7 +40,7 @@ public class Car extends GameObject{
 			isMoving=false;
 		}
 
-		Collision(object);
+		//Collision(object);
 	}
 	
 

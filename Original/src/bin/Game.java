@@ -52,8 +52,15 @@ public class Game extends Canvas implements Runnable{
 	private void init(){
 		game=this;
 		currentPlayer = 0;
+<<<<<<< HEAD
 		int randX = new Random().nextInt(WIDTH-40)+21;
 		int randY = new Random().nextInt(HEIGHT-40)+21;
+=======
+		WIDTH = getWidth();
+		HEIGHT = getHeight();
+		int randX = new Random().nextInt(WIDTH-20)+10;
+		int randY = new Random().nextInt(HEIGHT-20)+10;
+>>>>>>> 40d42a74bf5221fee2bead0932cb27cc367b3d51
 
 		windowCtrl = new WindowControl(this);
 		input = new KeyInput(handler,pName);
@@ -117,6 +124,37 @@ public class Game extends Canvas implements Runnable{
 	            delta += (now - lastTime) / ns;
 	            lastTime = now;
 	            boolean shouldRender = true;
+<<<<<<< HEAD
+=======
+	
+	            while (delta >= 1) {
+	                tick();
+	                updates++;
+	                delta -= 1;
+	                shouldRender = true;
+	            }
+	
+	            try {
+	                Thread.sleep(2);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	
+	            if (shouldRender) {
+	                frames++;
+	                render();
+	            }
+	
+	            if (System.currentTimeMillis() - timer >= 1000) {
+	                timer += 1000;
+	                frames = 0;
+	                updates = 0;
+	            }
+	        }
+		}
+
+	}
+>>>>>>> 40d42a74bf5221fee2bead0932cb27cc367b3d51
 	
 	            while (delta >= 1) {
 	                tick();
