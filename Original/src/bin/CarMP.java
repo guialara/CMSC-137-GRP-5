@@ -15,14 +15,14 @@ public class CarMP extends Car{
 	public InetAddress ipAddress;
 	public int port;
 	
-	public CarMP(float x, float y, int width, int height, Handler handler, String pName, ObjectId id, InetAddress ipAddress, int port){
-		super(x,y,width,height,handler,pName,id);
+	public CarMP(float x, float y, int width, int height, Handler handler, String pName, ObjectId id, InetAddress ipAddress, int port, int score){
+		super(x,y,width,height,handler,pName,id, score);
 		this.ipAddress = ipAddress;
 		this.port = port;
 	}
 
-	public CarMP(float x, float y, int width, int height, String pName, ObjectId id, InetAddress ipAddress, int port){
-		super(x,y,width,height,null,pName,id);
+	public CarMP(float x, float y, int width, int height, String pName, ObjectId id, InetAddress ipAddress, int port, int score){
+		super(x,y,width,height,null,pName,id, score);
 		this.ipAddress = ipAddress;
 		this.port = port;
 	}
