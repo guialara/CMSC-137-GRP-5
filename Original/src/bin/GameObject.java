@@ -85,7 +85,7 @@ public abstract class GameObject{
 	public void setWidth(int width){
 		this.width = width;
 	}
-	public void setHeight(){
+	public void setHeight(int height){
 		this.height = height;
 	}
 	public boolean getIsMoving(){

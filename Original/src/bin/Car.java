@@ -17,6 +17,7 @@ public class Car extends GameObject{
 	String pName;
 	public boolean isMoving=false;
 	public Handler handler;
+	public int score;
 	//GameClient gameClient;
 	
 	public Car(float x, float y, int width, int height, Handler handler, String pName, ObjectId id){
@@ -26,12 +27,16 @@ public class Car extends GameObject{
 		this.y += height/2;
 		this.pName = pName;
 		this.handler = handler;
+		this.score = 0;
 	}
 
 	public void tick(LinkedList<GameObject> object){
 		this.x+=this.velX;
 		this.y+=this.velY;
-		
+		if(x<5) x = 5;
+		if(x>Game.WIDTH) x = Game.WIDTH-width;
+		if(y<5) y=5;
+		if(y>Game.HEIGHT) y = Game.HEIGHT-height;
 		if(this.velX != 0 || this.velY != 0){
 			isMoving = true;
 			PacketMove packet = new PacketMove(this.getUsername(),(int)this.x, (int)this.y);
@@ -68,7 +73,7 @@ public class Car extends GameObject{
 			if(object.get(i).getId()==ObjectId.Food){
 				Food food = (Food)object.get(i);
 					if(getBounds().intersects(food.getBounds())){
-						PacketEat packet = new PacketEat(food.getX(), food.getY());
+						PacketEat packet = new PacketEat(getUsername(), food.getX(), food.getY());
 						packet.writeData(Game.game.gameClient);
 					}
 			}
@@ -84,6 +89,10 @@ public class Car extends GameObject{
 							PacketMove packet = new PacketMove(car.getUsername(),(int)car.getX(), (int)car.getY());
 							packet.writeData(Game.game.gameClient);
 						}
+						else if(getWidth()>car.getWidth()){
+							PacketDisconnect packet = new PacketDisconnect(car.getUsername());
+							packet.writeData(Game.game.gameClient);
+						}
 					}
 				}
 			}
@@ -93,9 +102,9 @@ public class Car extends GameObject{
 	public void render(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.fillOval((int)x, (int)y, (int)width,(int)height);
-		g2d.drawString(pName, (int)x+10, (int)y+60);
-		g2d.setColor(Color.red);
-		g2d.draw(getBounds());
+		g2d.drawString(pName, (int)x+10, (int)y+height+5);
+		// g2d.setColor(Color.red);
+		// g2d.draw(getBounds());
 	}
 
 	public RoundRectangle2D.Float getBounds(){
@@ -112,5 +121,11 @@ public class Car extends GameObject{
     }
 	public boolean isMoving() {
         return isMoving;
+    }
+    public int getScore(){
+    	return score;
+    }
+    public void setScore(int score){
+    	this.score+=score;
     }
 }

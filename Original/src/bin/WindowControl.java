@@ -13,7 +13,6 @@ public class WindowControl implements WindowListener{
 	}
 	@Override
 	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -21,7 +20,6 @@ public class WindowControl implements WindowListener{
 	public void windowClosing(WindowEvent e) {
 		PacketDisconnect packet = new PacketDisconnect(this.game.car.getUsername());
 		packet.writeData(this.game.gameClient);
-		
 	}
 
 	@Override

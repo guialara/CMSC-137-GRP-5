@@ -3,16 +3,19 @@ package bin;
 public class PacketEat extends Packet{
 	
 	public float x, y;
+	public String username;
 
 	public PacketEat(byte[] data) {
 		super(07);
 		String[] dataArray = readData(data).split(",");
-		this.x = Float.parseFloat(dataArray[0]);
-		this.y = Float.parseFloat(dataArray[1]);
+		this.username = dataArray[0];
+		this.x = Float.parseFloat(dataArray[1]);
+		this.y = Float.parseFloat(dataArray[2]);
 	}
 
-	public PacketEat(float x, float y){
+	public PacketEat(String username, float x, float y){
 		super(07);
+		this.username = username;
 		this.x = x;
 		this.y = y;
 	}
@@ -28,7 +31,7 @@ public class PacketEat extends Packet{
 	}
 	
 	public byte[] getData() {
-		return ("07"+this.x+","+this.y+",extra").getBytes();
+		return ("07"+this.username+","+this.x+","+this.y+",extra").getBytes();
 	}
 
 	public float getXPos() {
@@ -64,13 +67,19 @@ public class PacketEat extends Packet{
 	
 	public String getUsername() {
 	
-		return null;
+		return username;
 	}
 
 	
 	public ObjectId getId() {
 	
 		return null;
+	}
+
+	@Override
+	public int getScore() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

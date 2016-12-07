@@ -66,5 +66,10 @@ public class PacketLogin extends Packet {
 		return id;
 	}
     
+    @Override
+    public int getScore() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
 }

@@ -5,7 +5,9 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 //import java.net.SocketException;
 //import java.net.UnknownHostException;
-
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import bin.Packet.PacketTypes;
 
 public class GameClient extends Thread{
@@ -63,12 +65,29 @@ public class GameClient extends Thread{
 				packet = new PacketFood(data);
 				handleFood((PacketFood)packet);
 				break;
+			case ENDGAME:
+				packet = new PacketEndGame(data);
+				game.handler.removeObjectFromList(((PacketEndGame)packet).getUsername());
+				break;
+			case RANK:
+				packet = new PacketRank(data);
+				HandleEndGame((PacketRank)packet);
+				break;
 			case EAT:
 				packet = new PacketEat(data);
 				game.handler.removeObject(searchFood(((PacketEat)packet).getXPos(), ((PacketEat)packet).getYPos()));
+				modifyPlayer(((PacketEat)packet).getUsername());
 				break;
 		}
 		
+	}
+	private void HandleEndGame(PacketRank packet){
+		Iterator<Entry<String, Integer>> it = packet.ranking.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+			this.game.ranking.put(pair.getKey(), pair.getValue());
+			it.remove();
+		}
 	}
 	private void handleMove(PacketMove packet) {
 		 this.game.handler.movePlayer(packet.getUsername(), packet.getX(), packet.getY());
@@ -108,5 +127,17 @@ public class GameClient extends Thread{
 			}
 		}
 		return null;
+	}
+
+	private void modifyPlayer(String username){
+		for(GameObject c: game.handler.object){
+			if(c.getId()==ObjectId.Car){
+				if(((Car)c).getUsername().equals(username)){
+					c.setWidth(c.getWidth()+2);
+					c.setHeight(c.getHeight()+2);
+					((Car)c).setScore(((Car)c).getScore()+1);
+				}
+			}
+		}
 	}
 }

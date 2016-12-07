@@ -18,7 +18,7 @@ public class Food extends GameObject{
 
 	public void render(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.blue);
+		g2d.setColor(Color.yellow);
 		g2d.fillOval((int)x, (int)y, width, height);
 	}
 

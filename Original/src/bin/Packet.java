@@ -2,7 +2,7 @@ package bin;
 
 public abstract class Packet{
 	public static enum PacketTypes{
-		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02),FOOD(03), NUM(04), EAT(07);
+		INVALID(-1), LOGIN(00), DISCONNECT(01), MOVE(02),FOOD(03), NUM(04), ENDGAME(05), RANK(06), EAT(07);
 
 		private int packetId;
 		private PacketTypes(int packetId){
@@ -52,4 +52,5 @@ public abstract class Packet{
 	public abstract int getW();
 	public abstract String getUsername();
 	public abstract ObjectId getId();
+	public abstract int getScore();
 }

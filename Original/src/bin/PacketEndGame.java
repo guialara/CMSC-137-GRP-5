@@ -1,69 +1,63 @@
 package bin;
-import bin.GameClient;
-import bin.GameServer;
-public class PacketDisconnect extends Packet{
+
+import java.util.HashMap;
+
+public class PacketEndGame extends Packet{
 
 	private String username;
-
-	public PacketDisconnect(byte[] data) {
-		super(01);
+	public HashMap<String, Integer> ranking;
+	
+	
+	//ung data na pinapasa nya ay ung ranking
+	public PacketEndGame(byte[] data) {
+		super(05);
 		this.username = readData(data);
 	}
-	
-	public PacketDisconnect(String username){
-		super(01);
+
+	public PacketEndGame(String username){
+		super(05);
 		this.username = username;
 	}
-
-	@Override
+	
 	public void writeData(GameClient client) {
 		client.sendData(getData());
 	}
 
-	@Override
 	public void writeData(GameServer server) {
 		server.sendDataToAllClients(getData());
 	}
 
-	@Override
 	public byte[] getData() {
-		return ("01" + this.username).getBytes();
+		return ("05" + this.username).getBytes();
 	}
-	
-	@Override
-	public String getUsername() {
-		return username;
-	}
-	
-	@Override
+
 	public int getX() {
 		return 0;
 	}
 
-	@Override
 	public int getY() {
 		return 0;
 	}
 
-	@Override
 	public int getH() {
 		return 0;
 	}
 
-	@Override
 	public int getW() {
 		return 0;
 	}
 
-	@Override
+	public String getUsername() {
+		return this.username;
+	}
+
 	public ObjectId getId() {
 		return null;
 	}
-	
+
 	@Override
 	public int getScore() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
 }

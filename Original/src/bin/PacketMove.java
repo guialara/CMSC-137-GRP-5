@@ -66,4 +66,10 @@ public class PacketMove extends Packet{
 	public ObjectId getId() {
 		return ObjectId.Car;
 	}
+
+	@Override
+	public int getScore() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

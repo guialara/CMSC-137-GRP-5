@@ -3,10 +3,15 @@ package bin;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.util.HashMap;
+import java.util.Iterator;
 //import java.net.SocketException;
 //import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.swing.JLabel;
 
 import bin.Packet.PacketTypes;
 
@@ -15,6 +20,7 @@ public class GameServer extends Thread{
 	//public static LinkedList<Food> food = new LinkedList<Food>();
 	LinkedList<CarMP> cars = new LinkedList<CarMP>();
 	LinkedList<Food> foods = new LinkedList<Food>();
+	Map<String, Integer> ranks = new HashMap<String, Integer>();
 	private DatagramSocket socket;
 	private Game game;
 	public int playerNum;
@@ -31,7 +37,7 @@ public class GameServer extends Thread{
 
 		}
 		Random rand = new Random();
-		for(int i=0; i<20;i+=1){
+		for(int i=0; i<50;i+=1){
 			int randx = rand.nextInt(Game.WIDTH-40)+21;
 			int randy = rand.nextInt(Game.HEIGHT-40)+21;
 			Food newFood = new Food(randx,randy,7,7,ObjectId.Food);
@@ -84,11 +90,32 @@ public class GameServer extends Thread{
 	            packet = new PacketPlayerNum(data);
 	            this.sendPlayerLimit((PacketPlayerNum)packet);
 	        	break;
+	        case ENDGAME:
+	        	packet = new PacketEndGame(data);
+	        	this.removeConnectionEndGame((PacketEndGame)packet, this.getRanking());
+	        	break;
 	        case EAT:
 	        	packet = new PacketEat(data);
 	        	this.handleEat((PacketEat)packet);
 	        	break;
 		}
+	}
+
+	private String getRanking() {
+		String rank = "06";
+		int ctrl=1;
+		Iterator<Entry<String, Integer>> it = ranks.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Integer> pair = (Map.Entry<String, Integer>)it.next();
+			if(ctrl==1){
+				rank = rank+pair.getKey()+","+pair.getValue();
+				ctrl+=1;
+			}else{
+				rank = rank+","+pair.getKey()+","+pair.getValue();
+			}
+			it.remove();
+		}
+		return rank; 
 	}
 
 	private CarMP getCarMP(String username) {
@@ -102,6 +129,13 @@ public class GameServer extends Thread{
 
 	private void removeConnection(PacketDisconnect packet) {
 		this.cars.remove(getCarMPIndex(packet.getUsername()));
+		packet.writeData(this);
+	}
+
+	private void removeConnectionEndGame(PacketEndGame packet, String rank) {
+		int index = getCarMPIndex(packet.getUsername());
+		sendData(rank.getBytes(), this.cars.get(index).ipAddress, this.cars.get(index).port);
+		this.cars.remove(index);
 		packet.writeData(this);
 	}
 
@@ -183,35 +217,22 @@ public class GameServer extends Thread{
 		}
 		return null;
 	}
+
+	// private void modifyPlayer(String username){
+	// 	for(GameObject c: this.handler.object){
+	// 		if(c.getId()==ObjectId.Car){
+	// 			if(((Car)c).getUsername().equals(username)){
+	// 				c.setWidth(c.getWidth()+2);
+	// 				c.setHeight(c.getHeight()+2);
+	// 				((Car)c).setScore(((Car)c).getScore()+1);
+	// 			}
+	// 		}
+	// 	}
+	// }
 	
 	private void handleEat(PacketEat packet){
 		this.handler.removeObject(searchFood(packet.getXPos(), packet.getYPos()));
+		// modifyPlayer(packet.getUsername());
 		packet.writeData(this);
 	}
-
-	/*
-	 * private void handleFood(PacketFood food){
-	 * 	//pang pili kung init or request
-	 * String msg
-	 * 	if(food.getRequest().equals("init")){
-	 * 		
-	 * 	}
-	 * }
-	 * 
-	 * private int foodGenerateX(){
-	 * 	return new Random().nextInt(Game.WIDTH-20)+5;
-	 * }
-	 * 
-	 * private int foodGenerateX(){
-	 * 	return new Random().nextInt(Game.HEIGHT-20)+5;
-	 * }
-	 */
-/*	public static void main(String[] args){
-		if(args.length != 1){
-			System.out.println("Usage: java GameServer <number of players>");
-			System.exit(1);
-		}
-		GameServer server = new GameServer();
-		server.start();
-	}*/
 }
