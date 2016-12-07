@@ -19,7 +19,7 @@ public class Car extends GameObject{
 	public Handler handler;
 	//GameClient gameClient;
 	
-	public Car(float x, float y, int width, int height, Handler handler, String pName, ObjectId id){
+	public Car(float x, float y, int width, int height, Handler handler, String pName, ObjectId id, int score){
 		super(x,y,width,height,id);
 		//this.input = input;
 		this.x += width/2;
