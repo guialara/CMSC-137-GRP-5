@@ -26,29 +26,13 @@ public class Server
          try
          {
             System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
-            
-            /* Start accepting data from the ServerSocket */
-            //insert missing line for accepting connection from client here]
+           
             Socket server = serverSocket.accept();
             //System.out.println("Just connected to " + server.getRemoteSocketAddress());
             ClientThread newClient = new ClientThread(server);
             clientList.add(newClient);
             newClient.start();
             
-            /* Read data from the ClientSocket */
-            /*DataInputStream in = new DataInputStream(server.getInputStream());
-            System.out.println(in.readUTF());
-            DataOutputStream out = new DataOutputStream(server.getOutputStream());
-            
-            System.out.print("Server: ");
-            Scanner scan = new Scanner(System.in);
-            tempMsg = scan.nextLine();
-            /* Send data to the ClientSocket */
-            //out.writeUTF("Thank you for connecting to " + server.getLocalSocketAddress() + "\nGoodbye!");
-            /*out.writeUTF("Server > "+tempMsg+"\n");*/
-            //server.close();
-           // connected = false;
-            //System.out.println("Server ended the connection to "+ server.getRemoteSocketAddress());
          }catch(SocketTimeoutException s)
          {
             System.out.println("Socket timed out!");
